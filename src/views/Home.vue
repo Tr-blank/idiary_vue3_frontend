@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import DiaryCard from '@/components/DiaryCard.vue'
 import { ref } from 'vue'
 const apiBaseUrl = 'https://idiary-express-api.onrender.com'
 const users = ref([])
@@ -49,7 +50,9 @@ getDiaries()
       </div>
       <div>
         <div>日記清單 diaries</div>
-        <div>{{ diaries }}</div>
+        <div v-for="diary in diaries" :key="diary.id">
+          <DiaryCard card-type="edit" :diary="diary" class="mb-4" />
+        </div>
       </div>
     </div>
   </main>
