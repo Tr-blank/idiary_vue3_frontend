@@ -4,7 +4,7 @@ import Header from '@/components/Header.vue'
 
 <template>
   <Header />
-  <div>
+  <div class="pt-12">
     <RouterView />
   </div>
 </template>

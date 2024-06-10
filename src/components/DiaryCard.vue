@@ -1,33 +1,28 @@
 <script setup>
-defineProps(['diary', 'cardType'])
-// import { ref } from 'vue'
+const { diary, cardType } = defineProps(['diary', 'cardType'])
+import { computed } from 'vue'
 import {
   // BookmarkIcon as BookmarkSolidIcon,
   TrashIcon,
   PencilSquareIcon,
-  EllipsisHorizontalIcon,
-  UserCircleIcon
+  EllipsisHorizontalIcon
 } from '@heroicons/vue/24/solid'
 import { BookmarkIcon as BookmarkOutlineIcon } from '@heroicons/vue/24/outline'
-// const isEditType = ref(cardType.value === 'edit')
+import Avatar from '@/components/Avatar.vue'
+
+const avatarData = computed(() => {
+  return {
+    imgUrl: diary.identity.avatar,
+    name: diary.identity.name
+  }
+})
 </script>
 
 <template>
   <article class="border border-gray-300 rounded p-4 bg-white">
     <div class="flex justify-between pb-4">
       <div class="flex">
-        <div
-          v-if="diary.identity.avatar !== ''"
-          class="w-10 h-10 rounded-full overflow-hidden border border-gray-200"
-        >
-          <img :src="diary.identity.avatar" :alt="diary.identity.name" />
-        </div>
-        <div
-          v-else
-          class="w-10 h-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center"
-        >
-          <UserCircleIcon class="text-gray-300" />
-        </div>
+        <Avatar :avatar="avatarData" size-class="w-10 h-10" />
         <div class="pl-2">
           <div>
             <span class="text-base font-bold leading-4">{{ diary.identity.name }}</span>
