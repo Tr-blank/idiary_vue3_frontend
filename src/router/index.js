@@ -4,11 +4,12 @@ import Diary from '../views/Diary.vue'
 import Identity from '../views/Identity.vue'
 import Login from '../views/Login.vue'
 import MyIndex from '../views/My/Index.vue'
-import MyProfile from '../views/My/Profile.vue'
-import MyDiaries from '../views/My/Diaries.vue'
-import MyExchange from '../views/My/Exchange.vue'
-import MyIdentities from '../views/My/Identities.vue'
-import MyFollowing from '../views/My/Following.vue'
+import MyHome from '../views/My/children/Home.vue'
+import MyProfile from '../views/My/children/Profile.vue'
+import MyDiaries from '../views/My/children/Diaries.vue'
+import MyExchange from '../views/My/children/Exchange.vue'
+import MyIdentities from '../views/My/children/Identities.vue'
+import MyFollowing from '../views/My/children/Following.vue'
 
 const router = createRouter({
   history: createWebHistory('/#/'),
@@ -39,34 +40,41 @@ const router = createRouter({
       component: Login
     },
     {
-      path: '/my',
+      path: '/my/index',
       name: 'MyIndex',
-      component: MyIndex
-    },
-    {
-      path: '/my/profile',
-      name: 'MyProfile',
-      component: MyProfile
-    },
-    {
-      path: '/my/diaries',
-      name: 'MyDiaries',
-      component: MyDiaries
-    },
-    {
-      path: '/my/exchange',
-      name: 'MyExchange',
-      component: MyExchange
-    },
-    {
-      path: '/my/identities',
-      name: 'MyIdentities',
-      component: MyIdentities
-    },
-    {
-      path: '/my/following',
-      name: 'MyFollowing',
-      component: MyFollowing
+      component: MyIndex,
+      children: [
+        {
+          path: '/my/index',
+          name: 'MyHome',
+          component: MyHome
+        },
+        {
+          path: '/my/profile',
+          name: 'MyProfile',
+          component: MyProfile
+        },
+        {
+          path: '/my/identities',
+          name: 'MyIdentities',
+          component: MyIdentities
+        },
+        {
+          path: '/my/diaries',
+          name: 'MyDiaries',
+          component: MyDiaries
+        },
+        {
+          path: '/my/exchange',
+          name: 'MyExchange',
+          component: MyExchange
+        },
+        {
+          path: '/my/following',
+          name: 'MyFollowing',
+          component: MyFollowing
+        }
+      ]
     }
   ]
 })

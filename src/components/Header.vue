@@ -19,7 +19,7 @@ import { PencilSquareIcon } from '@heroicons/vue/24/solid'
           <PencilSquareIcon class="m-1 text-gray-300 w-6" />
         </div>
         <div class="ml-4">
-          <RouterLink to="/my">
+          <RouterLink to="/my/index">
             <Avatar />
           </RouterLink>
         </div>
