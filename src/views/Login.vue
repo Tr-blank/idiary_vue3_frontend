@@ -20,7 +20,7 @@ const login = () => {
 <template>
   <main class="my-10 flex items-center justify-center">
     <div class="bg-white border border-gray-300 p-6 rounded w-full max-w-xl">
-      <h1 class="text-center text-4xl pt-3 pb-6">註冊 / 登入</h1>
+      <h2 class="text-center text-4xl pt-3 pb-6">註冊 / 登入</h2>
       <el-form label-position="top" label-width="auto" :model="loginForm" class="max-w-80 mx-auto">
         <el-form-item label="常用信箱">
           <el-input v-model="loginForm.email" />
