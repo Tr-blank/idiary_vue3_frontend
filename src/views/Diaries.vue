@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
 import DiaryCard from '@/components/DiaryCard.vue'
+import IdentityCard from '@/components/IdentityCard.vue'
 import { ref } from 'vue'
 const apiBaseUrl = 'https://idiary-express-api.onrender.com'
 const users = ref([])
@@ -46,6 +47,14 @@ getDiaries()
       </div>
       <div>
         <div>身份清單 identities</div>
+        <div class="flex flex-wrap">
+          <IdentityCard
+            v-for="identity in identities"
+            :key="identity.id"
+            :identity="identity"
+            class="w-1/3"
+          />
+        </div>
         <div>{{ identities }}</div>
       </div>
       <div>
