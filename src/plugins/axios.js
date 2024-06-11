@@ -3,8 +3,8 @@ import { useUserStore } from '@/stores/user'
 
 // create an axios instance
 const instance = axios.create({
-  // baseURL: 'https://idiary-express-api.onrender.com',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://idiary-express-api.onrender.com',
+  // baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
