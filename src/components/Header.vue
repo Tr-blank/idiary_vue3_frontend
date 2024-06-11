@@ -1,6 +1,12 @@
 <script setup>
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/user'
 import Avatar from '@/components/Avatar.vue'
 import { PencilSquareIcon } from '@heroicons/vue/24/solid'
+const userStore = useUserStore()
+const isLogin = computed(() => {
+  return userStore.isLogin
+})
 </script>
 
 <template>
@@ -13,11 +19,11 @@ import { PencilSquareIcon } from '@heroicons/vue/24/solid'
         </RouterLink>
       </h1>
       <div class="flex items-center">
-        <RouterLink to="/auth" class="ml-4">註冊/登入</RouterLink>
-        <div class="ml-4 border rounded px-2 flex justify-center items-center">
+        <div v-if="isLogin" class="ml-4 border rounded px-2 flex justify-center items-center">
           <span class="inline-block">寫日記</span>
           <PencilSquareIcon class="m-1 text-gray-300 w-6" />
         </div>
+        <RouterLink v-else to="/auth" class="ml-4">註冊/登入</RouterLink>
         <div class="ml-4">
           <RouterLink to="/my/profile">
             <Avatar />

@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
-
+const isDev = process.env.NODE_ENV.trim() === 'dev'
 // create an axios instance
 const instance = axios.create({
-  baseURL: 'https://idiary-express-api.onrender.com',
-  // baseURL: 'http://localhost:3000',
+  baseURL: isDev ? 'http://localhost:3000' : 'https://idiary-express-api.onrender.com',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'

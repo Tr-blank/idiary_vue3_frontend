@@ -1,12 +1,12 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
-// import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { apiUser } from '@/api'
 const router = useRouter()
 const userStore = useUserStore()
 const isUniqueEmail = ref(false)
+const isbButtonLoading = ref(false)
 const refForm = ref()
 const errorMessage = ref('')
 const formData = reactive({
@@ -57,21 +57,31 @@ const onEmailBlur = async () => {
 
 const singUp = async () => {
   try {
+    const isValid = await refForm.value.validate()
+    if (!isValid) return
+    isbButtonLoading.value = true
     await userStore.singUp(formData)
     router.push('/my/profile')
   } catch (error) {
     console.log(error, error.status === 400)
     if (error.status === 400) errorMessage.value = error.message
+  } finally {
+    isbButtonLoading.value = false
   }
 }
 
 const login = async () => {
   try {
+    const isValid = await refForm.value.validate()
+    if (!isValid) return
+    isbButtonLoading.value = true
     await userStore.login(formData)
     router.push('/my/profile')
   } catch (error) {
     console.log(error, error.status === 400)
     if (error.status === 400) errorMessage.value = error.message
+  } finally {
+    isbButtonLoading.value = false
   }
 }
 </script>
@@ -97,9 +107,10 @@ const login = async () => {
         <el-form-item v-if="isUniqueEmail" prop="confirmPassword" label="確認密碼">
           <el-input v-model="formData.confirmPassword" type="password" />
         </el-form-item>
-        <div v-if="errorMessage !== ''" class="text-red">{{ errorMessage }}</div>
+        <div v-if="errorMessage !== ''" class="text-red-500 text-sm">{{ errorMessage }}</div>
         <el-button
           v-if="isUniqueEmail"
+          :loading="isbButtonLoading"
           color="#F59E0C"
           :dark="false"
           class="w-full mt-4 mb-10"
@@ -107,7 +118,14 @@ const login = async () => {
         >
           <span class="font-bold text-white">註冊</span>
         </el-button>
-        <el-button v-else color="#F59E0C" :dark="false" class="w-full mt-4 mb-10" @click="login">
+        <el-button
+          v-else
+          :loading="isbButtonLoading"
+          color="#F59E0C"
+          :dark="false"
+          class="w-full mt-4 mb-10"
+          @click="login"
+        >
           <span class="font-bold text-white">登入</span>
         </el-button>
       </el-form>

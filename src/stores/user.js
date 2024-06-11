@@ -4,15 +4,6 @@ import { useCookies } from 'vue3-cookies'
 import { apiUser } from '@/api'
 
 const isDev = process.env.NODE_ENV.trim() === 'dev'
-// export const useCounterStore = defineStore('counter', () => {
-//   const count = ref(0)
-//   const doubleCount = computed(() => count.value * 2)
-//   function increment() {
-//     count.value++
-//   }
-
-//   return { count, doubleCount, increment }
-// })
 
 export const useUserStore = defineStore('user', () => {
   const userToken = ref('')
@@ -22,19 +13,23 @@ export const useUserStore = defineStore('user', () => {
 
   const setUserToken = (token) => {
     const { cookies } = useCookies()
-    const cookieValue = { userToken: token }
-    cookies.set('idiary', cookieValue, {
-      domain: isDev ? 'http://localhost:5173' : 'https://tr-blank.github.io',
-      maxAge: 24 * 60 * 60, //一天
-      path: '/'
-    })
+    const cookieToken = cookies.get('idiary_token')
+    if (cookieToken !== token) {
+      cookies.set('idiary_token', token, {
+        domain: isDev ? 'http://localhost:5173' : 'https://tr-blank.github.io',
+        maxAge: 24 * 60 * 60, //一天
+        path: '/'
+      })
+    }
     userToken.value = token
     isLogin.value = true
   }
-
   const getProfile = async () => {
     const { data } = await apiUser.getProfile()
-    profile.value = { data }
+    profile.value = {
+      account: data.account,
+      email: data.email
+    }
     return data
   }
   // const getIdentities = async () => {
@@ -43,7 +38,6 @@ export const useUserStore = defineStore('user', () => {
   // }
   const singUp = async (formData) => {
     try {
-      // console.log('stores', postData)
       const account = formData.email.split('@')[0]
       const postData = {
         ...formData,
@@ -69,5 +63,5 @@ export const useUserStore = defineStore('user', () => {
       throw error.data
     }
   }
-  return { userToken, isLogin, profile, login, singUp, getProfile }
+  return { userToken, isLogin, profile, login, singUp, getProfile, setUserToken }
 })
