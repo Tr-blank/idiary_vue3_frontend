@@ -1,8 +1,8 @@
 <script setup>
 import { reactive } from 'vue'
 // // import { storeToRefs } from 'pinia';
-// import { useUserStore } from '@/stores/user'
-// const store = useUserStore()
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 const profileData = reactive({})
 const newProfileData = reactive({
   account: '',
@@ -13,8 +13,13 @@ const passwordData = reactive({
   confirmPassword: ''
 })
 import { apiUser } from '@/api'
-const getProfile = async () => {
+const setProfile = async () => {
   const { data } = await apiUser.getProfile()
+  // const profile = userStore.profile
+  // profileData.account = profile.account
+  // profileData.email = profile.email
+  // newProfileData.account = profile.account
+  // newProfileData.email = profile.email
   profileData.account = data.account
   profileData.email = data.email
   newProfileData.account = data.account
@@ -35,14 +40,14 @@ const editPassword = () => {
   // const res = apiUser.updateProfile(postData)
   console.log(profileData)
 }
-getProfile()
+setProfile()
 </script>
 
 <template>
   <main>
     <h2 class="text-2xl font-bold border-b border-gray-300 p-4">會員資訊</h2>
-    <!-- <div>{{ profileData }}</div>
-    <div>{{ newProfileData }}</div> -->
+    <!-- <div>{{ profileData }}</div> -->
+    <!-- <div>{{ userStore.profile }}</div> -->
     <el-form label-position="top" label-width="auto" :model="newProfileData" class="p-4">
       <el-form-item label="帳號">
         <el-input v-model="newProfileData.account" />

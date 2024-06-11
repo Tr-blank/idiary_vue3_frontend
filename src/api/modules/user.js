@@ -22,6 +22,13 @@ export default {
       data
     })
   },
+  checkEmailUnique(data) {
+    return axios({
+      url: '/users/isEmailUnique',
+      method: 'post',
+      data
+    })
+  },
   getProfile() {
     return axios({
       url: '/users/profile',

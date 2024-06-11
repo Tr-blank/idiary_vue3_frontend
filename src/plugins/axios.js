@@ -3,7 +3,8 @@ import { useUserStore } from '@/stores/user'
 
 // create an axios instance
 const instance = axios.create({
-  baseURL: 'https://idiary-express-api.onrender.com',
+  // baseURL: 'https://idiary-express-api.onrender.com',
+  baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
@@ -13,10 +14,8 @@ const instance = axios.create({
 // request interceptor
 instance.interceptors.request.use(
   (request) => {
-    const store = useUserStore()
-    const token =
-      store.userToken ||
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjZjYWQ5YTI1MzZjNzBiNDQ0ZjViMSIsImlhdCI6MTcxODAxMjkyMywiZXhwIjoxNzE4NjE3NzIzfQ.OUNijCzRrvw5_HHCoPAl0pIeNc7qwD1q5O2uW1H095U'
+    const userStore = useUserStore()
+    const token = userStore?.userToken
     if (token) {
       request.headers['Authorization'] = `Bearer ${token}`
     }

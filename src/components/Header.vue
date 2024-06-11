@@ -13,13 +13,13 @@ import { PencilSquareIcon } from '@heroicons/vue/24/solid'
         </RouterLink>
       </h1>
       <div class="flex items-center">
-        <RouterLink to="/login" class="ml-4">註冊/登入</RouterLink>
+        <RouterLink to="/auth" class="ml-4">註冊/登入</RouterLink>
         <div class="ml-4 border rounded px-2 flex justify-center items-center">
           <span class="inline-block">寫日記</span>
           <PencilSquareIcon class="m-1 text-gray-300 w-6" />
         </div>
         <div class="ml-4">
-          <RouterLink to="/my/index">
+          <RouterLink to="/my/profile">
             <Avatar />
           </RouterLink>
         </div>
