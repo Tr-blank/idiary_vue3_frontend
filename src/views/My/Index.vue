@@ -6,6 +6,21 @@ import {
   BookOpenIcon,
   StarIcon
 } from '@heroicons/vue/24/solid'
+import { computed } from 'vue'
+import IdentityCard from '@/components/IdentityCard.vue'
+import IdentityDetailCard from '@/components/IdentityDetailCard.vue'
+import { useUserStore } from '@/stores/user'
+import { apiUser } from '@/api'
+const userStore = useUserStore()
+const currentIdentity = computed(() => userStore.currentIdentity)
+const userIdentities = computed(() =>
+  userStore.identities.filter((identity) => identity.id !== currentIdentity.value.id)
+)
+const isOtherIdentities = computed(() => userIdentities.value.length > 0)
+const changeCurrentIdentity = async (identityID) => {
+  await apiUser.updateCurrentIdentity({ identityID })
+  await userStore.getProfile()
+}
 </script>
 
 <template>
@@ -37,6 +52,16 @@ import {
         <RouterView />
       </div>
     </div>
-    <aside class="w-52 py-4">切換身分</aside>
+    <aside class="w-52 py-4">
+      <IdentityDetailCard :identity="currentIdentity" />
+      <div v-if="isOtherIdentities">
+        <IdentityCard
+          v-for="identity in userIdentities"
+          :key="identity.id"
+          :identity="identity"
+          @click="changeCurrentIdentity(identity._id)"
+        />
+      </div>
+    </aside>
   </main>
 </template>

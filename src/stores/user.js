@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useCookies } from 'vue3-cookies'
-import { apiUser } from '@/api'
+import { apiUser, apiIdentity } from '@/api'
 
 const isDev = process.env.NODE_ENV.trim() === 'dev'
 
@@ -9,7 +9,8 @@ export const useUserStore = defineStore('user', () => {
   const userToken = ref('')
   const isLogin = ref(false)
   const profile = ref({})
-  // const identities = ref([])
+  const identities = ref([])
+  const currentIdentity = ref({})
 
   const setUserToken = (token) => {
     const { cookies } = useCookies()
@@ -27,9 +28,15 @@ export const useUserStore = defineStore('user', () => {
   const getProfile = async () => {
     const { data } = await apiUser.getProfile()
     profile.value = {
+      id: data._id,
       account: data.account,
       email: data.email
     }
+    currentIdentity.value = data.current_identity
+    identities.value = []
+    data.identity.forEach((identity) => {
+      identities.value.push(identity)
+    })
     return data
   }
   // const getIdentities = async () => {
@@ -63,5 +70,15 @@ export const useUserStore = defineStore('user', () => {
       throw error.data
     }
   }
-  return { userToken, isLogin, profile, login, singUp, getProfile, setUserToken }
+  return {
+    userToken,
+    isLogin,
+    profile,
+    identities,
+    currentIdentity,
+    login,
+    singUp,
+    getProfile,
+    setUserToken
+  }
 })

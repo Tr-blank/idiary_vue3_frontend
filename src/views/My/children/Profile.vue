@@ -1,7 +1,9 @@
 <script setup>
-import { reactive } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { apiUser } from '@/api'
 const userStore = useUserStore()
+const userProfile = computed(() => userStore.profile)
 const profileData = reactive({})
 const newProfileData = reactive({
   account: '',
@@ -11,13 +13,14 @@ const passwordData = reactive({
   password: '',
   confirmPassword: ''
 })
-import { apiUser } from '@/api'
+watch(userProfile, () => {
+  setProfile()
+})
 const setProfile = async () => {
-  const profile = userStore.profile
-  profileData.account = profile.account
-  profileData.email = profile.email
-  newProfileData.account = profile.account
-  newProfileData.email = profile.email
+  profileData.account = userProfile.value.account
+  profileData.email = userProfile.value.email
+  newProfileData.account = userProfile.value.account
+  newProfileData.email = userProfile.value.email
 }
 const editProfile = async () => {
   let postData = {}
@@ -27,8 +30,8 @@ const editProfile = async () => {
       postData[key] = newProfileData[key]
     }
   })
-  const { data } = await apiUser.updateProfile(postData)
-  console.log(data)
+  await apiUser.updateProfile(postData)
+  await userStore.getProfile()
 }
 const editPassword = () => {
   // const res = apiUser.updateProfile(postData)

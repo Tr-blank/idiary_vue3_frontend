@@ -41,5 +41,12 @@ export default {
       method: 'patch',
       data
     })
+  },
+  updateCurrentIdentity(data) {
+    return axios({
+      url: '/users/currentIdentity',
+      method: 'patch',
+      data
+    })
   }
 }
