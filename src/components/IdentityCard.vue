@@ -3,6 +3,10 @@ const { identity } = defineProps({
   identity: {
     type: Object
     // required: true
+  },
+  type: {
+    type: String
+    // required: true
   }
 })
 import { computed } from 'vue'
@@ -23,6 +27,6 @@ const avatarData = computed(() => {
       <Avatar :avatar="avatarData" size-class="w-7 h-7" />
       <div class="text-base font-bold pl-1 text-center">{{ identity.name }}</div>
     </div>
-    <ArrowPathRoundedSquareIcon class="w-4 h-4" />
+    <ArrowPathRoundedSquareIcon v-if="type === 'change'" class="w-4 h-4" />
   </article>
 </template>

@@ -3,12 +3,16 @@ import { computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import Avatar from '@/components/Avatar.vue'
 import { PencilSquareIcon } from '@heroicons/vue/24/solid'
+const emit = defineEmits(['openDiaryPopup'])
 const userStore = useUserStore()
 const isLogin = computed(() => userStore.isLogin)
+const openDiaryPopup = () => {
+  emit('openDiaryPopup')
+}
 </script>
 
 <template>
-  <header class="fixed top-0 z-50 bg-white w-full border-b border-gray-300">
+  <header class="fixed top-0 z-10 bg-white w-full border-b border-gray-300">
     <div class="h-12 main-container flex justify-between items-center">
       <h1 class="py-2">
         <RouterLink to="/" class="text-2xl">
@@ -17,7 +21,11 @@ const isLogin = computed(() => userStore.isLogin)
         </RouterLink>
       </h1>
       <div class="flex items-center">
-        <div v-if="isLogin" class="ml-4 border rounded px-2 flex justify-center items-center">
+        <div
+          v-if="isLogin"
+          class="ml-4 border rounded px-2 flex justify-center items-center cursor-pointer"
+          @click="openDiaryPopup"
+        >
           <span class="inline-block">寫日記</span>
           <PencilSquareIcon class="m-1 text-gray-300 w-6" />
         </div>

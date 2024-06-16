@@ -3,33 +3,40 @@ import axios from '@/plugins/axios'
 export default {
   getAll() {
     return axios({
-      url: `/identities`,
+      url: `/diaries`,
       method: 'get'
     })
   },
-  getDetail(identityID) {
+  getDetail(diaryID) {
     return axios({
-      url: `/identities/${identityID}`,
+      url: `/diaries/${diaryID}`,
       method: 'get'
+    })
+  },
+  getAllByUser(params) {
+    return axios({
+      url: `/diaries/all`,
+      method: 'get',
+      params
     })
   },
   create(data) {
     return axios({
-      url: '/identities',
+      url: '/diaries',
       method: 'post',
       data
     })
   },
-  updateDetail(identityID, data) {
+  updateDetail(diaryID, data) {
     return axios({
-      url: `/identities/${identityID}`,
+      url: `/diaries/${diaryID}`,
       method: 'patch',
       data
     })
   },
-  delete(identityID) {
+  delete(diaryID) {
     return axios({
-      url: `/identities/${identityID}`,
+      url: `/diaries/${diaryID}`,
       method: 'delete'
     })
   }

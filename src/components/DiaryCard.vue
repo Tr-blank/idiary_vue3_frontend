@@ -1,21 +1,28 @@
 <script setup>
-const { diary, cardType } = defineProps(['diary', 'cardType'])
 import { computed } from 'vue'
 import {
   // BookmarkIcon as BookmarkSolidIcon,
   TrashIcon,
-  PencilSquareIcon,
-  EllipsisHorizontalIcon
+  PencilSquareIcon
+  // EllipsisHorizontalIcon
 } from '@heroicons/vue/24/solid'
 import { BookmarkIcon as BookmarkOutlineIcon } from '@heroicons/vue/24/outline'
 import Avatar from '@/components/Avatar.vue'
-
+const { diary, cardType } = defineProps(['diary', 'cardType'])
+const emit = defineEmits(['deleteDiaries', 'openDiaryPopup'])
+const isEditType = computed(() => cardType === 'edit')
 const avatarData = computed(() => {
   return {
     imgUrl: diary?.identity?.avatar || '',
     name: diary?.identity?.name || ''
   }
 })
+const deleteDiary = () => {
+  emit('deleteDiaries', diary._id)
+}
+const openDiaryPopup = () => {
+  emit('openDiaryPopup', diary._id)
+}
 </script>
 
 <template>
@@ -34,12 +41,16 @@ const avatarData = computed(() => {
         </div>
       </div>
       <div class="flex">
-        <i class="pl-1" v-if="cardType === 'edit'">
+        <!-- <i class="pl-1" v-if="isEditType">
           <EllipsisHorizontalIcon class="size-5 text-gray-900" />
-        </i>
-        <template v-else>
-          <i class="pl-1"><PencilSquareIcon class="size-5 text-gray-900" /></i>
-          <i class="pl-1"><TrashIcon class="size-5 text-gray-900" /></i>
+        </i> -->
+        <template v-if="isEditType">
+          <i class="pl-1 cursor-pointer" @click="openDiaryPopup">
+            <PencilSquareIcon class="size-5 text-gray-900" />
+          </i>
+          <i class="pl-1 cursor-pointer" @click="deleteDiary">
+            <TrashIcon class="size-5 text-gray-900" />
+          </i>
         </template>
       </div>
     </div>
@@ -58,7 +69,8 @@ const avatarData = computed(() => {
       </div>
       <div>
         <!-- <BookmarkSolidIcon class="size-5 text-yellow-400" /> -->
-        <BookmarkOutlineIcon class="size-5 text-gray-400" />
+        <span v-if="isEditType">{{ diary.type }}</span>
+        <BookmarkOutlineIcon v-else class="size-5 text-gray-400" />
       </div>
     </div>
   </article>

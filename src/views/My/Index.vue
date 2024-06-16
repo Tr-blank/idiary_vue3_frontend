@@ -54,9 +54,11 @@ const changeCurrentIdentity = async (identityID) => {
     </div>
     <aside class="w-52 py-4">
       <IdentityDetailCard :identity="currentIdentity" />
+      <div class="text-gray-400 pt-8">切換身份</div>
       <div v-if="isOtherIdentities" class="py-2">
         <IdentityCard
           v-for="identity in userIdentities"
+          type="change"
           :key="identity.id"
           :identity="identity"
           @click="changeCurrentIdentity(identity._id)"
