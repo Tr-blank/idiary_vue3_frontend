@@ -4,9 +4,7 @@ import { useUserStore } from '@/stores/user'
 import Avatar from '@/components/Avatar.vue'
 import { PencilSquareIcon } from '@heroicons/vue/24/solid'
 const userStore = useUserStore()
-const isLogin = computed(() => {
-  return userStore.isLogin
-})
+const isLogin = computed(() => userStore.isLogin)
 </script>
 
 <template>

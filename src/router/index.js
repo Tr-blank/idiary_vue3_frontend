@@ -52,32 +52,50 @@ const router = createRouter({
         {
           path: '/my/index',
           name: 'MyHome',
-          component: MyHome
+          component: MyHome,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/my/profile',
           name: 'MyProfile',
-          component: MyProfile
+          component: MyProfile,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/my/identities',
           name: 'MyIdentities',
-          component: MyIdentities
+          component: MyIdentities,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/my/diaries',
           name: 'MyDiaries',
-          component: MyDiaries
+          component: MyDiaries,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/my/exchange',
           name: 'MyExchange',
-          component: MyExchange
+          component: MyExchange,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/my/following',
           name: 'MyFollowing',
-          component: MyFollowing
+          component: MyFollowing,
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     }
@@ -88,17 +106,18 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   const { cookies } = useCookies()
   const cookieToken = cookies.get('idiary_token')
-  const requireAuth = to.matched.some((record) => record.meta.requiresAuth)
+  const requireAuth = to?.meta?.requiresAuth || false
   const accessToken = userStore?.userToken
 
   if (cookieToken && !accessToken) {
     userStore.setUserToken(cookieToken)
     userStore.getProfile()
   }
-  if (requireAuth && !accessToken) {
+  if (requireAuth && !cookieToken) {
     next('/auth')
+  } else {
+    next()
   }
-  next()
 })
 
 export default router

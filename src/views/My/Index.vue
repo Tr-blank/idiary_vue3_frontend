@@ -54,7 +54,7 @@ const changeCurrentIdentity = async (identityID) => {
     </div>
     <aside class="w-52 py-4">
       <IdentityDetailCard :identity="currentIdentity" />
-      <div v-if="isOtherIdentities">
+      <div v-if="isOtherIdentities" class="py-2">
         <IdentityCard
           v-for="identity in userIdentities"
           :key="identity.id"

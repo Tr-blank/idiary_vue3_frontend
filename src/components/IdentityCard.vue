@@ -6,7 +6,7 @@ const { identity } = defineProps({
   }
 })
 import { computed } from 'vue'
-import { StarIcon, BookOpenIcon, DocumentDuplicateIcon } from '@heroicons/vue/24/solid'
+import { ArrowPathRoundedSquareIcon } from '@heroicons/vue/24/solid'
 import Avatar from '@/components/Avatar.vue'
 
 const avatarData = computed(() => {
@@ -18,8 +18,11 @@ const avatarData = computed(() => {
 </script>
 
 <template>
-  <article class="border border-gray-300 rounded p-4">
-    <Avatar :avatar="avatarData" size-class="w-16 h-16 mx-auto" />
-    <div class="text-base font-bold py-2 text-center">{{ identity.name }}</div>
+  <article class="py-1 flex justify-between items-center cursor-pointer hover:text-green-800">
+    <div class="flex items-center">
+      <Avatar :avatar="avatarData" size-class="w-7 h-7" />
+      <div class="text-base font-bold pl-1 text-center">{{ identity.name }}</div>
+    </div>
+    <ArrowPathRoundedSquareIcon class="w-4 h-4" />
   </article>
 </template>

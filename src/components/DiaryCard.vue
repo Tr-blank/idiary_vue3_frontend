@@ -12,8 +12,8 @@ import Avatar from '@/components/Avatar.vue'
 
 const avatarData = computed(() => {
   return {
-    imgUrl: diary.identity.avatar,
-    name: diary.identity.name
+    imgUrl: diary?.identity?.avatar || '',
+    name: diary?.identity?.name || ''
   }
 })
 </script>
