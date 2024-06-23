@@ -39,7 +39,7 @@ const deleteDiaries = async (identityID) => {
   await getDiaries(activeTab.value)
 }
 
-// getDiaries()
+getDiaries()
 </script>
 
 <template>

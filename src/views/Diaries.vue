@@ -1,68 +1,51 @@
 <script setup>
-import axios from 'axios'
+import { ref, computed } from 'vue'
+import PublicAside from '@/components/PublicAside.vue'
 import DiaryCard from '@/components/DiaryCard.vue'
 import IdentityCard from '@/components/IdentityCard.vue'
-import { ref } from 'vue'
-const apiBaseUrl = 'https://idiary-express-api.onrender.com'
-const users = ref([])
+import { apiDiary } from '@/api'
 const diaries = ref([])
-const identities = ref([])
+const identities = computed(() => {
+  const identityIDs = []
+  const identityList = []
+  diaries.value.forEach((diary) => {
+    if (!identityIDs.includes(diary.identity._id)) {
+      identityList.push({
+        ...diary.identity
+      })
+    }
+  })
+  return identityList
+})
+const isOtherIdentities = computed(() => identities.value.length > 0)
 
-const getUsers = async () => {
-  try {
-    const { data } = await axios.get(`${apiBaseUrl}/users`)
-    users.value = data.data
-  } catch (error) {
-    console.log(error)
-  }
-}
-const getIdentities = async () => {
-  try {
-    const { data } = await axios.get(`${apiBaseUrl}/identities`)
-    identities.value = data.data
-  } catch (error) {
-    console.log(error)
-  }
-}
 const getDiaries = async () => {
-  try {
-    const { data } = await axios.get(`${apiBaseUrl}/diaries`)
-    diaries.value = data.data
-  } catch (error) {
-    console.log(error)
+  const params = {
+    // { identity: currentIdentity.value._id } : {},
+    // ...(type && type !== 'all' ? { type } : {})
   }
+  const { data } = await apiDiary.getPublicList(params)
+  diaries.value = data
 }
-
-getUsers()
-getIdentities()
 getDiaries()
 </script>
 
 <template>
-  <main>
-    <div class="main-container py-40">
-      <div>
-        <div>使用者清單 users</div>
-        <div>{{ users }}</div>
-      </div>
-      <div>
-        <div>身份清單 identities</div>
-        <div class="flex flex-wrap">
-          <IdentityCard
-            v-for="identity in identities"
-            :key="identity.id"
-            :identity="identity"
-            class="w-1/3"
-          />
-        </div>
-        <div>{{ identities }}</div>
-      </div>
-      <div>
-        <div>日記清單 diaries</div>
-        <div v-for="diary in diaries" :key="diary.id">
-          <DiaryCard card-type="edit" :diary="diary" class="mb-4" />
-        </div>
-      </div>
+  <main class="main-container flex justify-between">
+    <PublicAside currentPage="diaries" />
+    <div class="flex-auto p-4">
+      <RouterLink v-for="diary in diaries" :key="diary.id" :to="`/diary/${diary._id}`">
+        <DiaryCard :diary="diary" class="mb-4" />
+      </RouterLink>
     </div>
+    <aside class="w-52 py-4">
+      <div>分類</div>
+      <div v-if="isOtherIdentities">
+        <div class="text-gray-400 pt-8">活躍身份</div>
+        <div class="py-2">
+          <IdentityCard v-for="identity in identities" :key="identity.id" :identity="identity" />
+        </div>
+      </div>
+    </aside>
   </main>
 </template>

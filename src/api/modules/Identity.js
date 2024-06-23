@@ -1,15 +1,15 @@
 import axios from '@/plugins/axios'
 
 export default {
-  getAll() {
+  getPublicList() {
     return axios({
-      url: `/identities`,
+      url: `/identities/public`,
       method: 'get'
     })
   },
   getDetail(identityID) {
     return axios({
-      url: `/identities/${identityID}`,
+      url: `/identities/public/${identityID}`,
       method: 'get'
     })
   },

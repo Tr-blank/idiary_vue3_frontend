@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Header from '@/components/Header.vue'
 import DiaryFormPopup from '@/components/DiaryFormPopup.vue'
+const route = useRoute()
 const isOpenDiaryPopup = ref(false)
+const pageName = computed(() => route.params?.name)
 const openDiaryPopup = () => {
   isOpenDiaryPopup.value = true
 }
@@ -16,7 +19,7 @@ const closeDiaryPopup = () => {
     <Header @open-diary-popup="openDiaryPopup" />
     <DiaryFormPopup v-if="isOpenDiaryPopup" @close-diary-popup="closeDiaryPopup" />
     <div class="pt-12">
-      <RouterView />
+      <RouterView :key="pageName" />
     </div>
   </div>
 </template>

@@ -11,9 +11,9 @@ export const useUserStore = defineStore('user', () => {
   const profile = ref({})
   const identities = ref([])
   const currentIdentity = ref({})
+  const { cookies } = useCookies()
 
   const setUserToken = (token) => {
-    const { cookies } = useCookies()
     const cookieToken = cookies.get('idiary_token')
     if (cookieToken !== token) {
       cookies.set('idiary_token', token, {
@@ -70,6 +70,22 @@ export const useUserStore = defineStore('user', () => {
       throw error.data
     }
   }
+  const logout = async () => {
+    try {
+      const cookieToken = cookies.get('idiary_token')
+      if (cookieToken) {
+        cookies.remove('idiary_token')
+      }
+      userToken.value = ''
+      isLogin.value = false
+      profile.value = {}
+      identities.value = []
+      currentIdentity.value = {}
+    } catch (error) {
+      console.log(error)
+      throw error.data
+    }
+  }
   return {
     userToken,
     isLogin,
@@ -77,6 +93,7 @@ export const useUserStore = defineStore('user', () => {
     identities,
     currentIdentity,
     login,
+    logout,
     singUp,
     getProfile,
     setUserToken

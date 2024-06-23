@@ -11,6 +11,7 @@ import Avatar from '@/components/Avatar.vue'
 const { diary, cardType } = defineProps(['diary', 'cardType'])
 const emit = defineEmits(['deleteDiaries', 'openDiaryPopup'])
 const isEditType = computed(() => cardType === 'edit')
+const isDataLoading = computed(() => diary)
 const avatarData = computed(() => {
   return {
     imgUrl: diary?.identity?.avatar || '',
@@ -27,13 +28,12 @@ const openDiaryPopup = () => {
 
 <template>
   <article class="border border-gray-300 rounded p-4 bg-white">
-    <div class="flex justify-between pb-4">
-      <div class="flex">
+    <div v-if="isDataLoading" class="flex justify-between pb-4">
+      <div v-if="avatarData" class="flex">
         <Avatar :avatar="avatarData" size-class="w-10 h-10" />
         <div class="pl-2">
           <div>
             <span class="text-base font-bold leading-4">{{ diary.identity.name }}</span>
-            <!-- <span>{{ diary.identity.name }}</span> -->
           </div>
           <div class="text-sm leading-4">
             {{ new Date(diary.updatedAt).toLocaleString('sv') }}

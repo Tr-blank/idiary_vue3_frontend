@@ -1,15 +1,16 @@
 import axios from '@/plugins/axios'
 
 export default {
-  getAll() {
+  getPublicList(params) {
     return axios({
-      url: `/diaries`,
-      method: 'get'
+      url: `/diaries/public`,
+      method: 'get',
+      params
     })
   },
   getDetail(diaryID) {
     return axios({
-      url: `/diaries/${diaryID}`,
+      url: `/diaries/public/${diaryID}`,
       method: 'get'
     })
   },

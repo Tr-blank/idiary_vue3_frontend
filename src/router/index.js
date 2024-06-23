@@ -4,6 +4,7 @@ import { useCookies } from 'vue3-cookies'
 import Diaries from '../views/Diaries.vue'
 import Diary from '../views/Diary.vue'
 import Identity from '../views/Identity.vue'
+import Identities from '../views/Identities.vue'
 import Auth from '../views/Auth.vue'
 import MyIndex from '../views/My/Index.vue'
 import MyHome from '../views/My/children/Home.vue'
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/',
       name: 'Index',
       component: Diaries
+    },
+    {
+      path: '/identities',
+      name: 'Identities',
+      component: Identities
     },
     {
       path: '/:tag',
