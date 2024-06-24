@@ -19,7 +19,7 @@ getIdentities()
 <template>
   <main class="main-container flex justify-between">
     <PublicAside currentPage="identities" />
-    <div class="flex-auto p-4">
+    <div class="flex-auto p-4 max-w-3xl">
       <div v-for="identity in identities" :key="identity.id">
         <IdentityCard :identity="identity" />
       </div>

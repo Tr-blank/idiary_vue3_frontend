@@ -47,13 +47,13 @@ const changeCurrentIdentity = async (identityID) => {
         <span>追隨清單</span>
       </RouterLink>
     </aside>
-    <div class="flex-auto p-4">
+    <div class="flex-auto p-4 max-w-3xl">
       <div class="bg-white rounded border border-gray-300">
         <RouterView />
       </div>
     </div>
     <aside class="w-52 py-4">
-      <IdentityDetailCard :identity="currentIdentity" />
+      <IdentityDetailCard :is-current-identity="true" />
       <div v-if="isOtherIdentities">
         <div class="text-gray-400 pt-8">切換身份</div>
         <div class="py-2">

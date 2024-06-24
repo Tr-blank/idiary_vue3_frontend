@@ -1,5 +1,6 @@
 <script setup>
-const { avatar, sizeClass } = defineProps({
+// import { computed } from 'vue'
+const { avatar } = defineProps({
   avatar: {
     type: Object
   },
@@ -8,6 +9,7 @@ const { avatar, sizeClass } = defineProps({
     default: 'w-8 h-8'
   }
 })
+// const avatarUrl = computed(() => avatar?.imgUrl)
 </script>
 
 <template>

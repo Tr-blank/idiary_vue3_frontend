@@ -10,6 +10,7 @@ const identities = computed(() => {
   const identityList = []
   diaries.value.forEach((diary) => {
     if (!identityIDs.includes(diary.identity._id)) {
+      identityIDs.push(diary.identity._id)
       identityList.push({
         ...diary.identity
       })
@@ -33,7 +34,7 @@ getDiaries()
 <template>
   <main class="main-container flex justify-between">
     <PublicAside currentPage="diaries" />
-    <div class="flex-auto p-4">
+    <div class="flex-auto p-4 max-w-3xl">
       <RouterLink v-for="diary in diaries" :key="diary.id" :to="`/diary/${diary._id}`">
         <DiaryCard :diary="diary" class="mb-4" />
       </RouterLink>

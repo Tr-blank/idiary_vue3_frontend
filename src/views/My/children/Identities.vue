@@ -60,31 +60,22 @@ const updateIdentity = async () => {
 }
 const deleteIdentity = async () => {
   await apiIdentity.delete(currentIdentity.value._id)
-  // await apiUser
   await userStore.getProfile()
   updateEditForm()
 }
 const uploadAvatar = async (event) => {
-  // const file = null
   const file = event.target.files[0]
-  // if (target && target.files) {
-  //     file = target.files[0];
-  // }
-  console.log(file)
   if (!file) {
     return
   }
-
   const formData = new FormData()
   formData.append('files', file)
-
   try {
     const { data } = await apiUpload.postAvatar(formData)
     await apiIdentity.updateDetail(currentIdentity.value._id, { avatar: data.imgUrl })
     await userStore.getProfile()
   } catch (error) {
     console.error('Error uploading image:', error)
-    alert('Failed to upload image.')
   }
 }
 </script>
