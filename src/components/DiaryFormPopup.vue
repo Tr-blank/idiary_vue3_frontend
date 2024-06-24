@@ -136,7 +136,14 @@ const uploadPhoto = async (event) => {
             rows="10"
           />
         </el-form-item>
-        <div>
+        <div class="flex">
+          <div
+            v-if="isEditForm && diary.image"
+            :class="diary.image ? 'w-1/2' : ''"
+            class="rounded overflow-hidden mr-2"
+          >
+            <img :src="diary.image" :alt="diary.title" class="" />
+          </div>
           <input
             type="file"
             id="uploadButton"
@@ -146,7 +153,7 @@ const uploadPhoto = async (event) => {
           />
           <label
             for="uploadButton"
-            class="w-full bg-gray-100 h-32 border border-gray-300 cursor-pointer flex items-center justify-center rounded"
+            class="w-full bg-gray-100 min-h-24 border border-gray-300 cursor-pointer flex items-center justify-center rounded relative"
           >
             <div class="flex text-gray-500 items-center">
               <PhotoIcon class="w-6 mr-1" />
