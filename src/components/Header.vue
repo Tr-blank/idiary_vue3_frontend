@@ -1,19 +1,34 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import Avatar from '@/components/Avatar.vue'
 import { PencilSquareIcon } from '@heroicons/vue/24/solid'
 const emit = defineEmits(['openDiaryPopup'])
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const isOpenUserDropdown = ref(false)
+const routeName = computed(() => route.name)
 const isLogin = computed(() => userStore.isLogin)
+const currentIdentity = computed(() => userStore.currentIdentity)
+const avatarData = computed(() => {
+  return {
+    imgUrl: currentIdentity.value?.avatar || '',
+    name: currentIdentity.value?.name || ''
+  }
+})
+watch(routeName, () => {
+  closeUserDropdown()
+})
 const openDiaryPopup = () => {
   emit('openDiaryPopup')
 }
 const triggerUserDropdown = () => {
   isOpenUserDropdown.value = !isOpenUserDropdown.value
+}
+const closeUserDropdown = () => {
+  isOpenUserDropdown.value = false
 }
 const logout = async () => {
   await userStore.logout()
@@ -42,7 +57,7 @@ const logout = async () => {
           </div>
           <div class="ml-4 relative">
             <span class="cursor-pointer" @click="triggerUserDropdown">
-              <Avatar />
+              <Avatar :avatar="avatarData" />
             </span>
             <div
               v-if="isOpenUserDropdown"

@@ -1,8 +1,9 @@
 <script setup>
+import { PhotoIcon } from '@heroicons/vue/24/solid'
 import Avatar from '@/components/Avatar.vue'
 import { ref, reactive, computed, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { apiIdentity, apiUser } from '@/api'
+import { apiIdentity, apiUpload } from '@/api'
 const userStore = useUserStore()
 const isCreateForm = ref(false)
 const currentIdentity = computed(() => userStore.currentIdentity)
@@ -59,9 +60,32 @@ const updateIdentity = async () => {
 }
 const deleteIdentity = async () => {
   await apiIdentity.delete(currentIdentity.value._id)
-  await apiUser
+  // await apiUser
   await userStore.getProfile()
   updateEditForm()
+}
+const uploadAvatar = async (event) => {
+  // const file = null
+  const file = event.target.files[0]
+  // if (target && target.files) {
+  //     file = target.files[0];
+  // }
+  console.log(file)
+  if (!file) {
+    return
+  }
+
+  const formData = new FormData()
+  formData.append('files', file)
+
+  try {
+    const { data } = await apiUpload.postAvatar(formData)
+    await apiIdentity.updateDetail(currentIdentity.value._id, { avatar: data.imgUrl })
+    await userStore.getProfile()
+  } catch (error) {
+    console.error('Error uploading image:', error)
+    alert('Failed to upload image.')
+  }
 }
 </script>
 
@@ -81,7 +105,22 @@ const deleteIdentity = async () => {
       class="p-4"
     >
       <div class="pb-4">
-        <Avatar :avatar="avatarData" size-class="w-32 h-32" />
+        <div class="inline-block relative">
+          <Avatar :avatar="avatarData" size-class="w-32 h-32" />
+          <input
+            type="file"
+            id="uploadButton"
+            name="filename"
+            class="hidden"
+            @change="uploadAvatar"
+          />
+          <label
+            for="uploadButton"
+            class="absolute bottom-0 right-0 rounded-full bg-gray-100 p-2 border border-gray-300 cursor-pointer"
+          >
+            <PhotoIcon class="w-7" />
+          </label>
+        </div>
       </div>
       <el-form-item label="代號">
         <el-input v-model="createForm.codeName" />
@@ -98,7 +137,22 @@ const deleteIdentity = async () => {
     </el-form>
     <el-form v-else label-position="top" label-width="auto" :model="editForm" class="p-4">
       <div class="pb-4">
-        <Avatar :avatar="avatarData" size-class="w-32 h-32" />
+        <div class="inline-block relative">
+          <Avatar :avatar="avatarData" size-class="w-32 h-32" />
+          <input
+            type="file"
+            id="uploadButton"
+            name="filename"
+            class="hidden"
+            @change="uploadAvatar"
+          />
+          <label
+            for="uploadButton"
+            class="absolute bottom-0 right-0 rounded-full bg-gray-100 p-2 border border-gray-300 cursor-pointer"
+          >
+            <PhotoIcon class="w-7" />
+          </label>
+        </div>
       </div>
       <el-form-item label="代號">
         <el-input v-model="editForm.codeName" />
