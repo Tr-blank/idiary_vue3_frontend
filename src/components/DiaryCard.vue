@@ -19,10 +19,10 @@ const avatarData = computed(() => {
   }
 })
 const deleteDiary = () => {
-  emit('deleteDiaries', diary._id)
+  emit('deleteDiaries', diary?._id)
 }
 const openDiaryPopup = () => {
-  emit('openDiaryPopup', diary._id)
+  emit('openDiaryPopup', diary?._id)
 }
 </script>
 
