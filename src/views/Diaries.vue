@@ -46,9 +46,8 @@ getDiaries()
       </RouterLink>
     </div>
     <aside class="w-52 py-4">
-      <div>分類</div>
       <div v-if="isOtherIdentities">
-        <div class="text-gray-400 pt-8">活躍身份</div>
+        <div class="text-gray-400">活躍身份</div>
         <div class="py-2">
           <IdentityCard v-for="identity in identities" :key="identity.id" :identity="identity" />
         </div>

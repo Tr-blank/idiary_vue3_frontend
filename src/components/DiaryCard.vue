@@ -64,8 +64,8 @@ const openDiaryPopup = () => {
       </div>
     </div>
     <div class="flex justify-between">
-      <div>
-        <span>#tag</span>
+      <div class="text-gray-500 text-sm">
+        <span>電影 · #腦筋急轉彎 #心情 #認識情緒</span>
       </div>
       <div>
         <!-- <BookmarkSolidIcon class="size-5 text-yellow-400" /> -->

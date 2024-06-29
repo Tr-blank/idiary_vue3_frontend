@@ -35,7 +35,7 @@ getDiary()
       <div class="py-2">
         <IdentityDetailCard :identity="identity" :is-current-identity="false" />
       </div>
-      <div v-if="isOtherDiaries">
+      <!-- <div v-if="isOtherDiaries">
         <div class="text-gray-400 pt-8">{{ identity.name }}的其他日記</div>
         <div class="py-2">
           <RouterLink
@@ -46,7 +46,7 @@ getDiary()
             {{ diary.title }}
           </RouterLink>
         </div>
-      </div>
+      </div> -->
     </aside>
   </main>
 </template>

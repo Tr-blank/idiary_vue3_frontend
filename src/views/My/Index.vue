@@ -38,14 +38,14 @@ const changeCurrentIdentity = async (identityID) => {
         <DocumentDuplicateIcon class="w-6 mr-1" />
         <span>我的日記</span>
       </RouterLink>
-      <RouterLink to="/my/exchange" class="py-2 flex items-center">
+      <!-- <RouterLink to="/my/exchange" class="py-2 flex items-center">
         <BookOpenIcon class="w-6 mr-1" />
         <span>交換日記本</span>
       </RouterLink>
       <RouterLink to="/my/following" class="py-2 flex items-center">
         <StarIcon class="w-6 mr-1" />
         <span>追隨清單</span>
-      </RouterLink>
+      </RouterLink> -->
     </aside>
     <div class="flex-auto p-4 max-w-3xl">
       <div class="bg-white rounded border border-gray-300">

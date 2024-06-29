@@ -30,11 +30,11 @@ const avatarData = computed(() => {
     <div class="flex flex-wrap">
       <div class="inline-flex items-center w-full">
         <StarIcon class="w-4 h-4" />
-        <span>0已追隨/0追隨者</span>
+        <span>3已追隨/2追隨者</span>
       </div>
       <div class="inline-flex items-center mr-2">
         <DocumentDuplicateIcon class="w-4 h-4" />
-        <span>0篇</span>
+        <span>5篇</span>
       </div>
       <div class="inline-flex items-center">
         <BookOpenIcon class="w-4 h-4" />
@@ -42,7 +42,7 @@ const avatarData = computed(() => {
       </div>
     </div>
     <div class="flex">
-      <span>#tag</span>
+      <span>#心情</span>
     </div>
   </article>
 </template>
