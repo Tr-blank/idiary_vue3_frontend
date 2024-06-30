@@ -14,6 +14,6 @@ const { avatar } = defineProps({
 
 <template>
   <div :class="sizeClass" class="rounded-full overflow-hidden border border-gray-200">
-    <img v-lazy="avatar.imgUrl" :alt="avatar.name" class="w-full h-full object-cover" />
+    <img v-lazy="avatar.imgUrl" class="w-full h-full object-cover" />
   </div>
 </template>

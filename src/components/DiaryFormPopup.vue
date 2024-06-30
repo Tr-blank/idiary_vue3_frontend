@@ -1,18 +1,21 @@
 <script setup>
 import { PencilSquareIcon, XMarkIcon, PhotoIcon } from '@heroicons/vue/24/solid'
 import IdentityCard from '@/components/IdentityCard.vue'
-import { computed, reactive } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { apiDiary, apiUser, apiUpload } from '@/api'
 import router from '@/router'
 const { diary, type } = defineProps(['diary', 'type'])
 const emit = defineEmits(['closeDiaryPopup'])
 const userStore = useUserStore()
+const popupType = ref(type)
+const diaryID = ref(diary?._id || '')
 const currentIdentity = computed(() => userStore.currentIdentity)
 const userIdentities = computed(() => userStore.identities)
 const isCanSaveDiary = computed(() => createForm.content.trim() !== '')
-const isEditForm = computed(() => type === 'edit')
-const isPublicDiary = computed(() => isEditForm.value && diary.type === '公開')
+const imageUrl = computed(() => createForm?.image || diary?.image)
+const isEditForm = computed(() => popupType.value === 'edit')
+const isPublicDiary = computed(() => isEditForm.value && diary?.type === '公開')
 const selectIdentity = computed(() =>
   userIdentities.value.find((identity) => identity._id === createForm.identity)
 )
@@ -20,26 +23,37 @@ const createForm = reactive({
   identity: isEditForm.value ? diary.identity._id : currentIdentity.value._id,
   title: isEditForm.value ? diary.title : '',
   content: isEditForm.value ? diary.content : '',
-  type: isEditForm.value ? diary.type : '私人'
+  type: isEditForm.value ? diary.type : '私人',
+  image: isEditForm.value ? diary.image : ''
 })
 const closePopup = () => {
   emit('closeDiaryPopup')
 }
-const saveDiary = async () => {
+const saveDiary = async (imageData) => {
   const postData = {
     ...createForm,
     type: isEditForm.value ? createForm.type : '私人',
     code_name: createForm.codeName
   }
-  isEditForm.value
-    ? await apiDiary.updateDetail(diary._id, postData)
-    : await apiDiary.create(postData)
+  if (isEditForm.value) {
+    await apiDiary.updateDetail(diaryID.value, postData)
+  } else {
+    const { data } = await apiDiary.create(postData)
+    diaryID.value = data._id
+  }
+  // isEditForm.value
+  //   ? await apiDiary.updateDetail(diary._id, postData)
+  //   : await apiDiary.create(postData)
   await changeCurrentIdentity(createForm.identity)
+  if (imageData?.image) {
+    popupType.value = 'edit'
+    return
+  }
   router.push('/my/diaries')
   emit('closeDiaryPopup', true)
 }
 
-const savePublicDiary = async () => {
+const savePublicDiary = async (imageData) => {
   const postData = {
     ...createForm,
     type: '公開',
@@ -49,6 +63,10 @@ const savePublicDiary = async () => {
     ? await apiDiary.updateDetail(diary._id, postData)
     : await apiDiary.create(postData)
   await changeCurrentIdentity(createForm.identity)
+  if (imageData?.image) {
+    popupType.value = 'edit'
+    return
+  }
   router.push('/my/diaries')
   emit('closeDiaryPopup', true)
 }
@@ -65,7 +83,14 @@ const uploadPhoto = async (event) => {
   formData.append('files', file)
   try {
     const { data } = await apiUpload.postPhoto(formData)
-    await apiDiary.updateDetail(diary._id, { image: data.imgUrl })
+    createForm.image = data.imgUrl
+    saveDiary({ image: data.imgUrl })
+    // if(diary?._id) {
+    //   await apiDiary.updateDetail(diary._id, { image: data.imgUrl })
+    // }else{
+    //   saveDiary()
+    // }
+    // await apiDiary.updateDetail(diary._id, { image: data.imgUrl })
   } catch (error) {
     console.error('Error uploading image:', error)
   }
@@ -138,11 +163,11 @@ const uploadPhoto = async (event) => {
         </el-form-item>
         <div class="flex">
           <div
-            v-if="isEditForm && diary.image"
-            :class="diary.image ? 'w-1/2' : ''"
+            v-if="imageUrl"
+            :class="imageUrl ? 'w-1/2' : ''"
             class="rounded overflow-hidden mr-2"
           >
-            <img :src="diary.image" :alt="diary.title" class="" />
+            <img :src="imageUrl" class="" />
           </div>
           <input
             type="file"
