@@ -9,10 +9,10 @@ const newProfileData = reactive({
   account: '',
   email: ''
 })
-const passwordData = reactive({
-  password: '',
-  confirmPassword: ''
-})
+// const passwordData = reactive({
+//   password: '',
+//   confirmPassword: ''
+// })
 watch(userProfile, () => {
   setProfile()
 })
@@ -33,10 +33,10 @@ const editProfile = async () => {
   await apiUser.updateProfile(postData)
   await userStore.getProfile()
 }
-const editPassword = () => {
-  // const res = apiUser.updateProfile(postData)
-  console.log(profileData)
-}
+// const editPassword = () => {
+//   // const res = apiUser.updateProfile(postData)
+//   console.log(profileData)
+// }
 setProfile()
 </script>
 

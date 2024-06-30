@@ -57,7 +57,7 @@ const openDiaryPopup = () => {
     <div class="flex pb-4">
       <div :class="diary.image ? 'w-2/3' : 'w-full'">
         <h4 class="text-xl font-bold">{{ diary.title }}</h4>
-        <div class="text-base w-full">{{ diary.content }}</div>
+        <div class="text-base w-full whitespace-break-spaces">{{ diary.content }}</div>
       </div>
       <div v-if="diary.image" class="w-1/3 h-36 ml-2 rounded overflow-hidden relative">
         <img :src="diary.image" :alt="diary.title" class="w-full h-full object-cover" />

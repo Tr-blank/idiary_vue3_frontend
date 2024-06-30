@@ -59,9 +59,15 @@ const savePublicDiary = async (imageData) => {
     type: '公開',
     code_name: createForm.codeName
   }
-  isEditForm.value
-    ? await apiDiary.updateDetail(diary._id, postData)
-    : await apiDiary.create(postData)
+  if (isEditForm.value) {
+    await apiDiary.updateDetail(diaryID.value, postData)
+  } else {
+    const { data } = await apiDiary.create(postData)
+    diaryID.value = data._id
+  }
+  // isEditForm.value
+  //   ? await apiDiary.updateDetail(diary._id, postData)
+  //   : await apiDiary.create(postData)
   await changeCurrentIdentity(createForm.identity)
   if (imageData?.image) {
     popupType.value = 'edit'
