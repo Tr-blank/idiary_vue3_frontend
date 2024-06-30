@@ -54,7 +54,7 @@ setProfile()
         <span class="font-bold text-white">更新會員資訊</span>
       </el-button>
     </el-form>
-    <el-form label-position="top" label-width="auto" :model="passwordData" class="p-4">
+    <!-- <el-form label-position="top" label-width="auto" :model="passwordData" class="p-4">
       <el-form-item label="密碼">
         <el-input v-model="passwordData.password" type="password" />
       </el-form-item>
@@ -64,6 +64,6 @@ setProfile()
       <el-button color="#F59E0C" :dark="false" class="w-full my-4" @click="editPassword">
         <span class="font-bold text-white">更新密碼</span>
       </el-button>
-    </el-form>
+    </el-form> -->
   </main>
 </template>
