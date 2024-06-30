@@ -10,7 +10,7 @@ const diary = ref({})
 const identity = ref({})
 const otherDiaries = ref([])
 const diaryID = computed(() => route.params.diaryID)
-const isOtherDiaries = computed(() => otherDiaries.value.length > 0)
+// const isOtherDiaries = computed(() => otherDiaries.value.length > 0)
 const getDiary = async () => {
   const { data } = await apiDiary.getDetail(diaryID.value)
   diary.value = data

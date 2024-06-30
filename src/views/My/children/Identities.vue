@@ -8,9 +8,16 @@ const userStore = useUserStore()
 const isCreateForm = ref(false)
 const currentIdentity = computed(() => userStore.currentIdentity)
 const avatarData = computed(() => {
-  return {
-    imgUrl: currentIdentity.value?.avatar || '',
-    name: currentIdentity.value?.name || ''
+  if (isCreateForm.value) {
+    return {
+      imgUrl: '',
+      name: ''
+    }
+  } else {
+    return {
+      imgUrl: currentIdentity.value?.avatar || '',
+      name: currentIdentity.value?.name || ''
+    }
   }
 })
 let createForm = reactive({
